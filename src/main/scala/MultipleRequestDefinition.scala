@@ -2,12 +2,12 @@ import shapeless.ops.hlist.LiftAll
 import shapeless.{::, HList}
 import utils.{IsDistinctConstraint, NotContainsConstraint}
 
-class MultipleRequestDefinition[R <: HList](implicit
-                                            ID: IsDistinctConstraint[R],
-                                            allAR: LiftAll[APIResource, R]) extends RequestDefinition[R] {
+class MultipleRequestDefinition[L <: HList](implicit
+                                            ID: IsDistinctConstraint[L],
+                                            allAR: LiftAll[APIResource, L]) extends RequestDefinition[L] {
 
-  def and[RR](implicit
-              NC: R NotContainsConstraint RR,
-              AR: APIResource[RR]): MultipleRequestDefinition[RR :: R] =
-    new MultipleRequestDefinition[RR :: R]
+  def and[R](implicit
+              NC: L NotContainsConstraint R,
+              AR: APIResource[R]): MultipleRequestDefinition[R :: L] =
+    new MultipleRequestDefinition[R :: L]
 }
