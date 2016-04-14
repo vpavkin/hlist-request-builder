@@ -28,9 +28,10 @@ object MockResponse {
   implicit val hnilResponse = MockResponse[HNil](HNil)
 
   implicit def hlistResponse[R, L <: HList](implicit R: MockResponse[R],
-                                            L: MockResponse[L]): MockResponse[R :: L] = new MockResponse[R :: L] {
-    def value: R :: L = R.value :: L.value
-  }
+                                            L: MockResponse[L]): MockResponse[R :: L] =
+    new MockResponse[R :: L] {
+      def value: R :: L = R.value :: L.value
+    }
 }
 
 
